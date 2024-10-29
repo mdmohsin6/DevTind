@@ -22,6 +22,22 @@ app.post("/signup", async(req,res)=>{
    
 });
 
+//update dat of the user
+app.patch("/user", async (req,res)=>{
+    const userId = req.body.userId;
+    const data = req.body;
+    try{
+        const user = await User.findByIdAndUpdate({ _id: userId}, data, {
+            returnDocument: "after",
+            runValidator: true,
+        });
+      console.log(user);
+    res.send("user updated successfully");
+} catch (err) {
+    res.status(400).send("Updated failed:" + err.message);
+}
+});
+
 connectDB()
 .then(()=>{
     console.log("Database connection establishes...");
